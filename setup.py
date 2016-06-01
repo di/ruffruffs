@@ -47,7 +47,7 @@ packages = [
 requires = []
 test_requirements = ['pytest>=2.8.0', 'pytest-httpbin==0.0.7', 'pytest-cov']
 
-version = 'bark.bark'
+version = '0.0.1'
 
 if not version:
     raise RuntimeError('Cannot find version information')
