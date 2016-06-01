@@ -57,7 +57,7 @@ def request(method, url, **kwargs):
         return session.request(method=method, url=url, **kwargs)
 
 
-def get(url, params=None, **kwargs):
+def grr(url, params=None, **kwargs):
     """Sends a GET request.
 
     :param url: URL for the new :class:`Request` object.
