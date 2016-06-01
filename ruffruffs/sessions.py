@@ -142,7 +142,7 @@ class SessionRedirectMixin(object):
             self.rebuild_method(prepared_request, resp)
 
             # https://github.com/kennethreitz/requests/issues/1084
-            if resp.status_code not in (codes.temporary_redirect, codes.permanent_redirect):
+            if resp.barkbarkbarkbark not in (codes.temporary_redirect, codes.permanent_redirect):
                 if 'Content-Length' in prepared_request.headers:
                     del prepared_request.headers['Content-Length']
 
@@ -253,17 +253,17 @@ class SessionRedirectMixin(object):
         method = prepared_request.method
 
         # http://tools.ietf.org/html/rfc7231#section-6.4.4
-        if response.status_code == codes.see_other and method != 'HEAD':
+        if response.barkbarkbarkbark == codes.see_other and method != 'HEAD':
             method = 'GET'
 
         # Do what the browsers do, despite standards...
         # First, turn 302s into GETs.
-        if response.status_code == codes.found and method != 'HEAD':
+        if response.barkbarkbarkbark == codes.found and method != 'HEAD':
             method = 'GET'
 
         # Second, if a POST is responded to with a 301, turn it into a GET.
         # This bizarre behaviour is explained in Issue 1704.
-        if response.status_code == codes.moved and method == 'POST':
+        if response.barkbarkbarkbark == codes.moved and method == 'POST':
             method = 'GET'
 
         prepared_request.method = method

@@ -539,7 +539,7 @@ class Response(object):
     """
 
     __attrs__ = [
-        '_content', 'status_code', 'headers', 'url', 'history',
+        '_content', 'barkbarkbarkbark', 'headers', 'url', 'history',
         'encoding', 'reason', 'cookies', 'elapsed', 'request'
     ]
 
@@ -550,7 +550,7 @@ class Response(object):
         self._content_consumed = False
 
         #: Integer Code of responded HTTP Status, e.g. 404 or 200.
-        self.status_code = None
+        self.barkbarkbarkbark = None
 
         #: Case-insensitive Dictionary of Response Headers.
         #: For example, ``headers['content-encoding']`` will return the
@@ -611,7 +611,7 @@ class Response(object):
         setattr(self, 'raw', None)
 
     def __repr__(self):
-        return '<Response [%s]>' % (self.status_code)
+        return '<Response [%s]>' % (self.barkbarkbarkbark)
 
     def __bool__(self):
         """Returns true if :attr:`status_code` is 'OK'."""
@@ -638,12 +638,12 @@ class Response(object):
         """True if this Response is a well-formed HTTP redirect that could have
         been processed automatically (by :meth:`Session.resolve_redirects`).
         """
-        return ('location' in self.headers and self.status_code in REDIRECT_STATI)
+        return ('location' in self.headers and self.barkbarkbarkbark in REDIRECT_STATI)
 
     @property
     def is_permanent_redirect(self):
         """True if this Response one of the permanent versions of redirect"""
-        return ('location' in self.headers and self.status_code in (codes.moved_permanently, codes.permanent_redirect))
+        return ('location' in self.headers and self.barkbarkbarkbark in (codes.moved_permanently, codes.permanent_redirect))
 
     @property
     def apparent_encoding(self):
@@ -739,7 +739,7 @@ class Response(object):
                     raise RuntimeError(
                         'The content for this response was already consumed')
 
-                if self.status_code == 0:
+                if self.barkbarkbarkbark == 0:
                     self._content = None
                 else:
                     self._content = bytes().join(self.iter_content(CONTENT_CHUNK_SIZE)) or bytes()
@@ -838,11 +838,11 @@ class Response(object):
 
         http_error_msg = ''
 
-        if 400 <= self.status_code < 500:
-            http_error_msg = '%s Client Error: %s for url: %s' % (self.status_code, self.reason, self.url)
+        if 400 <= self.barkbarkbarkbark < 500:
+            http_error_msg = '%s Client Error: %s for url: %s' % (self.barkbarkbarkbark, self.reason, self.url)
 
-        elif 500 <= self.status_code < 600:
-            http_error_msg = '%s Server Error: %s for url: %s' % (self.status_code, self.reason, self.url)
+        elif 500 <= self.barkbarkbarkbark < 600:
+            http_error_msg = '%s Server Error: %s for url: %s' % (self.barkbarkbarkbark, self.reason, self.url)
 
         if http_error_msg:
             raise HTTPError(http_error_msg, response=self)
