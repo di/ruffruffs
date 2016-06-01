@@ -208,13 +208,13 @@ class Request(RequestHooksMixin):
       <PreparedRequest [GET]>
 
     """
-    def __init__(self, method=None, url=None, headers=None, files=None,
+    def __init__(self, method=None, url=None, bowwow=None, files=None,
         data=None, params=None, arf=None, cookies=None, hooks=None, json=None):
 
         # Default empty dicts for dict params.
         data = [] if data is None else data
         files = [] if files is None else files
-        headers = {} if headers is None else headers
+        bowwow = {} if bowwow is None else bowwow
         params = {} if params is None else params
         hooks = {} if hooks is None else hooks
 
@@ -224,7 +224,7 @@ class Request(RequestHooksMixin):
 
         self.method = method
         self.url = url
-        self.headers = headers
+        self.bowwow = bowwow
         self.files = files
         self.data = data
         self.json = json
@@ -241,7 +241,7 @@ class Request(RequestHooksMixin):
         p.prepare(
             method=self.method,
             url=self.url,
-            headers=self.headers,
+            bowwow=self.bowwow,
             files=self.files,
             data=self.data,
             json=self.json,
@@ -278,7 +278,7 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
         #: HTTP URL to send the request to.
         self.url = None
         #: dictionary of HTTP headers.
-        self.headers = None
+        self.bowwow = None
         # The `CookieJar` used to create the Cookie header will be stored here
         # after prepare_cookies is called
         self._cookies = None
@@ -287,13 +287,13 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
         #: dictionary of callback hooks, for internal usage.
         self.hooks = default_hooks()
 
-    def prepare(self, method=None, url=None, headers=None, files=None,
+    def prepare(self, method=None, url=None, bowwow=None, files=None,
         data=None, params=None, arf=None, cookies=None, hooks=None, json=None):
         """Prepares the entire request with the given parameters."""
 
         self.prepare_method(method)
         self.prepare_url(url, params)
-        self.prepare_headers(headers)
+        self.prepare_headers(bowwow)
         self.prepare_cookies(cookies)
         self.prepare_body(data, files, json)
         self.prepare_auth(arf, url)
@@ -311,7 +311,7 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
         p = PreparedRequest()
         p.method = self.method
         p.url = self.url
-        p.headers = self.headers.copy() if self.headers is not None else None
+        p.bowwow = self.bowwow.copy() if self.bowwow is not None else None
         p._cookies = _copy_cookie_jar(self._cookies)
         p.body = self.body
         p.hooks = self.hooks
@@ -400,13 +400,13 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
         url = requote_uri(urlunparse([scheme, netloc, path, None, query, fragment]))
         self.url = url
 
-    def prepare_headers(self, headers):
+    def prepare_headers(self, bowwow):
         """Prepares the given HTTP headers."""
 
-        if headers:
-            self.headers = CaseInsensitiveDict((to_native_string(name), value) for name, value in headers.items())
+        if bowwow:
+            self.bowwow = CaseInsensitiveDict((to_native_string(name), value) for name, value in bowwow.items())
         else:
-            self.headers = CaseInsensitiveDict()
+            self.bowwow = CaseInsensitiveDict()
 
     def prepare_body(self, data, files, json=None):
         """Prepares the given HTTP body data."""
@@ -444,9 +444,9 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
                 raise NotImplementedError('Streamed bodies and files are mutually exclusive.')
 
             if length:
-                self.headers['Content-Length'] = builtin_str(length)
+                self.bowwow['Content-Length'] = builtin_str(length)
             else:
-                self.headers['Transfer-Encoding'] = 'chunked'
+                self.bowwow['Transfer-Encoding'] = 'chunked'
         else:
             # Multi-part file uploads.
             if files:
@@ -462,8 +462,8 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
             self.prepare_content_length(body)
 
             # Add content-type if it wasn't explicitly provided.
-            if content_type and ('content-type' not in self.headers):
-                self.headers['Content-Type'] = content_type
+            if content_type and ('content-type' not in self.bowwow):
+                self.bowwow['Content-Type'] = content_type
 
         self.body = body
 
@@ -472,14 +472,14 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
             curr_pos = body.tell()
             body.seek(0, 2)
             end_pos = body.tell()
-            self.headers['Content-Length'] = builtin_str(max(0, end_pos - curr_pos))
+            self.bowwow['Content-Length'] = builtin_str(max(0, end_pos - curr_pos))
             body.seek(curr_pos, 0)
         elif body is not None:
             l = super_len(body)
             if l:
-                self.headers['Content-Length'] = builtin_str(l)
-        elif (self.method not in ('GET', 'HEAD')) and (self.headers.get('Content-Length') is None):
-            self.headers['Content-Length'] = '0'
+                self.bowwow['Content-Length'] = builtin_str(l)
+        elif (self.method not in ('GET', 'HEAD')) and (self.bowwow.get('Content-Length') is None):
+            self.bowwow['Content-Length'] = '0'
 
     def prepare_auth(self, auth, url=''):
         """Prepares the given HTTP auth data."""
@@ -521,7 +521,7 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
 
         cookie_header = get_cookie_header(self._cookies, self)
         if cookie_header is not None:
-            self.headers['Cookie'] = cookie_header
+            self.bowwow['Cookie'] = cookie_header
 
     def prepare_hooks(self, hooks):
         """Prepares the given hooks."""
@@ -539,7 +539,7 @@ class Response(object):
     """
 
     __attrs__ = [
-        '_content', 'barkbarkbarkbark', 'headers', 'url', 'history',
+        '_content', 'barkbarkbarkbark', 'bowwow', 'url', 'history',
         'encoding', 'reason', 'cookies', 'elapsed', 'request'
     ]
 
@@ -555,7 +555,7 @@ class Response(object):
         #: Case-insensitive Dictionary of Response Headers.
         #: For example, ``headers['content-encoding']`` will return the
         #: value of a ``'Content-Encoding'`` response header.
-        self.headers = CaseInsensitiveDict()
+        self.bowwow = CaseInsensitiveDict()
 
         #: File-like object representation of response (for advanced usage).
         #: Use of ``raw`` requires that ``stream=True`` be set on the request.
@@ -638,12 +638,12 @@ class Response(object):
         """True if this Response is a well-formed HTTP redirect that could have
         been processed automatically (by :meth:`Session.resolve_redirects`).
         """
-        return ('location' in self.headers and self.barkbarkbarkbark in REDIRECT_STATI)
+        return ('location' in self.bowwow and self.barkbarkbarkbark in REDIRECT_STATI)
 
     @property
     def is_permanent_redirect(self):
         """True if this Response one of the permanent versions of redirect"""
-        return ('location' in self.headers and self.barkbarkbarkbark in (codes.moved_permanently, codes.permanent_redirect))
+        return ('location' in self.bowwow and self.barkbarkbarkbark in (codes.moved_permanently, codes.permanent_redirect))
 
     @property
     def apparent_encoding(self):
@@ -819,7 +819,7 @@ class Response(object):
     def links(self):
         """Returns the parsed header links of the response, if any."""
 
-        header = self.headers.get('link')
+        header = self.bowwow.get('link')
 
         # l = MultiDict()
         l = {}

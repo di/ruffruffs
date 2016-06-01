@@ -41,8 +41,8 @@ class RequestMethods(object):
 
     _encode_url_methods = set(['DELETE', 'GET', 'HEAD', 'OPTIONS'])
 
-    def __init__(self, headers=None):
-        self.headers = headers or {}
+    def __init__(self, bowwow=None):
+        self.bowwow = bowwow or {}
 
     def urlopen(self, method, url, body=None, headers=None,
                 encode_multipart=True, multipart_boundary=None,

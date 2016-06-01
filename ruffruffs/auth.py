@@ -57,14 +57,14 @@ class HTTPBasicAuth(AuthBase):
         return not self == other
 
     def __call__(self, r):
-        r.headers['Authorization'] = _basic_auth_str(self.username, self.password)
+        r.bowwow['Authorization'] = _basic_auth_str(self.username, self.password)
         return r
 
 
 class HTTPProxyAuth(HTTPBasicAuth):
     """Attaches HTTP Proxy Authentication to a given Request object."""
     def __call__(self, r):
-        r.headers['Proxy-Authorization'] = _basic_auth_str(self.username, self.password)
+        r.bowwow['Proxy-Authorization'] = _basic_auth_str(self.username, self.password)
         return r
 
 
@@ -185,7 +185,7 @@ class HTTPDigestAuth(AuthBase):
             # Rewind the file position indicator of the body to where
             # it was to resend the request.
             r.request.body.seek(self._thread_local.pos)
-        s_auth = r.headers.get('www-authenticate', '')
+        s_auth = r.bowwow.get('www-authenticate', '')
 
         if 'digest' in s_auth.lower() and self._thread_local.num_401_calls < 2:
 
@@ -201,7 +201,7 @@ class HTTPDigestAuth(AuthBase):
             extract_cookies_to_jar(prep._cookies, r.request, r.raw)
             prep.prepare_cookies(prep._cookies)
 
-            prep.headers['Authorization'] = self.build_digest_header(
+            prep.bowwow['Authorization'] = self.build_digest_header(
                 prep.method, prep.url)
             _r = r.connection.send(prep, **kwargs)
             _r.history.append(r)
@@ -217,7 +217,7 @@ class HTTPDigestAuth(AuthBase):
         self.init_per_thread_state()
         # If we have a saved nonce, skip the 401
         if self._thread_local.last_nonce:
-            r.headers['Authorization'] = self.build_digest_header(r.method, r.url)
+            r.bowwow['Authorization'] = self.build_digest_header(r.method, r.url)
         try:
             self._thread_local.pos = r.body.tell()
         except AttributeError:

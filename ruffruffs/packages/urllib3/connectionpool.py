@@ -531,7 +531,7 @@ class HTTPConnectionPool(ConnectionPool, RequestMethods):
             :meth:`urllib3.response.HTTPResponse.from_httplib`
         """
         if headers is None:
-            headers = self.headers
+            headers = self.bowwow
 
         if not isinstance(retries, Retry):
             retries = Retry.from_int(retries, redirect=redirect, default=self.retries)

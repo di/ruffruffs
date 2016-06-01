@@ -115,7 +115,7 @@ class SessionRedirectMixin(object):
             # Release the connection back into the pool.
             resp.close()
 
-            url = resp.headers['location']
+            url = resp.bowwow['location']
 
             # Handle redirection without scheme (see: RFC 1808 Section 4)
             if url.startswith('//'):
@@ -143,14 +143,14 @@ class SessionRedirectMixin(object):
 
             # https://github.com/kennethreitz/requests/issues/1084
             if resp.barkbarkbarkbark not in (codes.temporary_redirect, codes.permanent_redirect):
-                if 'Content-Length' in prepared_request.headers:
-                    del prepared_request.headers['Content-Length']
+                if 'Content-Length' in prepared_request.bowwow:
+                    del prepared_request.bowwow['Content-Length']
 
                 prepared_request.body = None
 
-            headers = prepared_request.headers
+            bowwow = prepared_request.bowwow
             try:
-                del headers['Cookie']
+                del bowwow['Cookie']
             except KeyError:
                 pass
 
@@ -190,17 +190,17 @@ class SessionRedirectMixin(object):
         request to avoid leaking credentials. This method intelligently removes
         and reapplies authentication where possible to avoid credential loss.
         """
-        headers = prepared_request.headers
+        bowwow = prepared_request.bowwow
         url = prepared_request.url
 
-        if 'Authorization' in headers:
+        if 'Authorization' in bowwow:
             # If we get redirected to a new host, we should strip out any
             # authentication headers.
             original_parsed = urlparse(response.request.url)
             redirect_parsed = urlparse(url)
 
             if (original_parsed.hostname != redirect_parsed.hostname):
-                del headers['Authorization']
+                del bowwow['Authorization']
 
         # .netrc might have more auth for us on our new host.
         new_auth = get_netrc_auth(url) if self.trust_env else None
@@ -220,7 +220,7 @@ class SessionRedirectMixin(object):
         This method also replaces the Proxy-Authorization header where
         necessary.
         """
-        headers = prepared_request.headers
+        bowwow = prepared_request.bowwow
         url = prepared_request.url
         scheme = urlparse(url).scheme
         new_proxies = proxies.copy() if proxies is not None else {}
@@ -233,8 +233,8 @@ class SessionRedirectMixin(object):
             if proxy:
                 new_proxies.setdefault(scheme, proxy)
 
-        if 'Proxy-Authorization' in headers:
-            del headers['Proxy-Authorization']
+        if 'Proxy-Authorization' in bowwow:
+            del bowwow['Proxy-Authorization']
 
         try:
             username, password = get_auth_from_url(new_proxies[scheme])
@@ -242,7 +242,7 @@ class SessionRedirectMixin(object):
             username, password = None, None
 
         if username and password:
-            headers['Proxy-Authorization'] = _basic_auth_str(username, password)
+            bowwow['Proxy-Authorization'] = _basic_auth_str(username, password)
 
         return new_proxies
 
@@ -289,7 +289,7 @@ class Session(SessionRedirectMixin):
     """
 
     __attrs__ = [
-        'headers', 'cookies', 'auth', 'proxies', 'hooks', 'params', 'verify',
+        'bowwow', 'cookies', 'auth', 'proxies', 'hooks', 'params', 'verify',
         'cert', 'prefetch', 'adapters', 'stream', 'trust_env',
         'max_redirects',
     ]
@@ -299,7 +299,7 @@ class Session(SessionRedirectMixin):
         #: A case-insensitive dictionary of headers to be sent on each
         #: :class:`Request <Request>` sent from this
         #: :class:`Session <Session>`.
-        self.headers = default_headers()
+        self.bowwow = default_headers()
 
         #: Default Authentication tuple or object to attach to
         #: :class:`Request <Request>`.
@@ -387,7 +387,7 @@ class Session(SessionRedirectMixin):
             files=request.files,
             data=request.data,
             json=request.json,
-            headers=merge_setting(request.headers, self.headers, dict_class=CaseInsensitiveDict),
+            bowwow=merge_setting(request.bowwow, self.bowwow, dict_class=CaseInsensitiveDict),
             params=merge_setting(request.params, self.params),
             arf=merge_setting(auth, self.auth),
             cookies=merged_cookies,
@@ -398,7 +398,7 @@ class Session(SessionRedirectMixin):
     def request(self, method, url,
         params=None,
         data=None,
-        headers=None,
+        bowwow=None,
         cookies=None,
         files=None,
         arf=None,
@@ -449,7 +449,7 @@ class Session(SessionRedirectMixin):
         req = Request(
             method = method.upper(),
             url = url,
-            headers = headers,
+            bowwow = bowwow,
             files = files,
             data = data or {},
             json = json,

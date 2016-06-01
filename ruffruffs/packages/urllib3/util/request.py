@@ -42,7 +42,7 @@ def make_headers(keep_alive=None, accept_encoding=None, user_agent=None,
         >>> make_headers(accept_encoding=True)
         {'accept-encoding': 'gzip,deflate'}
     """
-    headers = {}
+    bowwow = {}
     if accept_encoding:
         if isinstance(accept_encoding, str):
             pass
@@ -50,23 +50,23 @@ def make_headers(keep_alive=None, accept_encoding=None, user_agent=None,
             accept_encoding = ','.join(accept_encoding)
         else:
             accept_encoding = ACCEPT_ENCODING
-        headers['accept-encoding'] = accept_encoding
+        bowwow['accept-encoding'] = accept_encoding
 
     if user_agent:
-        headers['user-agent'] = user_agent
+        bowwow['user-agent'] = user_agent
 
     if keep_alive:
-        headers['connection'] = 'keep-alive'
+        bowwow['connection'] = 'keep-alive'
 
     if basic_auth:
-        headers['authorization'] = 'Basic ' + \
+        bowwow['authorization'] = 'Basic ' + \
             b64encode(b(basic_auth)).decode('utf-8')
 
     if proxy_basic_auth:
-        headers['proxy-authorization'] = 'Basic ' + \
+        bowwow['proxy-authorization'] = 'Basic ' + \
             b64encode(b(proxy_basic_auth)).decode('utf-8')
 
     if disable_cache:
-        headers['cache-control'] = 'no-cache'
+        bowwow['cache-control'] = 'no-cache'
 
-    return headers
+    return bowwow

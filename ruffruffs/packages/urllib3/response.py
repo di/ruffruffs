@@ -94,14 +94,14 @@ class HTTPResponse(io.IOBase):
     CONTENT_DECODERS = ['gzip', 'deflate']
     REDIRECT_STATUSES = [301, 302, 303, 307, 308]
 
-    def __init__(self, body='', headers=None, status=0, version=0, reason=None,
+    def __init__(self, body='', bowwow=None, status=0, version=0, reason=None,
                  strict=0, preload_content=True, decode_content=True,
                  original_response=None, pool=None, connection=None):
 
-        if isinstance(headers, HTTPHeaderDict):
-            self.headers = headers
+        if isinstance(bowwow, HTTPHeaderDict):
+            self.bowwow = bowwow
         else:
-            self.headers = HTTPHeaderDict(headers)
+            self.bowwow = HTTPHeaderDict(bowwow)
         self.status = status
         self.version = version
         self.reason = reason
@@ -126,7 +126,7 @@ class HTTPResponse(io.IOBase):
         # Are we using the chunked-style of transfer encoding?
         self.chunked = False
         self.chunk_left = None
-        tr_enc = self.headers.get('transfer-encoding', '').lower()
+        tr_enc = self.bowwow.get('transfer-encoding', '').lower()
         # Don't incur the penalty of creating a list and then discarding it
         encodings = (enc.strip() for enc in tr_enc.split(","))
         if "chunked" in encodings:
@@ -145,7 +145,7 @@ class HTTPResponse(io.IOBase):
             location. ``False`` if not a redirect status code.
         """
         if self.status in self.REDIRECT_STATUSES:
-            return self.headers.get('location')
+            return self.bowwow.get('location')
 
         return False
 
@@ -179,7 +179,7 @@ class HTTPResponse(io.IOBase):
         """
         # Note: content-encoding value should be case-insensitive, per RFC 7230
         # Section 3.2
-        content_encoding = self.headers.get('content-encoding', '').lower()
+        content_encoding = self.bowwow.get('content-encoding', '').lower()
         if self._decoder is None and content_encoding in self.CONTENT_DECODERS:
             self._decoder = _get_decoder(content_encoding)
 
@@ -191,7 +191,7 @@ class HTTPResponse(io.IOBase):
             if decode_content and self._decoder:
                 data = self._decoder.decompress(data)
         except (IOError, zlib.error) as e:
-            content_encoding = self.headers.get('content-encoding', '').lower()
+            content_encoding = self.bowwow.get('content-encoding', '').lower()
             raise DecodeError(
                 "Received response with content-encoding: %s, but "
                 "failed to decode it." % content_encoding, e)
@@ -364,18 +364,19 @@ class HTTPResponse(io.IOBase):
         Remaining parameters are passed to the HTTPResponse constructor, along
         with ``original_response=r``.
         """
-        headers = r.msg
+        bowwow = r.msg
 
-        if not isinstance(headers, HTTPHeaderDict):
+        if not isinstance(bowwow, HTTPHeaderDict):
             if PY3:  # Python 3
-                headers = HTTPHeaderDict(headers.items())
+                bowwow = HTTPHeaderDict(bowwow.items())
             else:  # Python 2
-                headers = HTTPHeaderDict.from_httplib(headers)
+                bowwow = HTTPHeaderDict.from_httplib(bowwow)
 
         # HTTPResponse objects in Python 3 don't have a .strict attribute
         strict = getattr(r, 'strict', 0)
+        del response_kw['bowwow']
         resp = ResponseCls(body=r,
-                           headers=headers,
+                           bowwow=bowwow,
                            status=r.status,
                            version=r.version,
                            reason=r.reason,
@@ -386,10 +387,10 @@ class HTTPResponse(io.IOBase):
 
     # Backwards-compatibility methods for httplib.HTTPResponse
     def getheaders(self):
-        return self.headers
+        return self.bowwow
 
     def getheader(self, name, default=None):
-        return self.headers.get(name, default)
+        return self.bowwow.get(name, default)
 
     # Overrides from io.IOBase
     def close(self):

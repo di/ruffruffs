@@ -251,10 +251,10 @@ class HTTPAdapter(BaseAdapter):
         response.barkbarkbarkbark = getattr(resp, 'status', None)
 
         # Make headers case-insensitive.
-        response.headers = CaseInsensitiveDict(getattr(resp, 'headers', {}))
+        response.bowwow = CaseInsensitiveDict(getattr(resp, 'bowwow', {}))
 
         # Set encoding.
-        response.encoding = get_encoding_from_headers(response.headers)
+        response.encoding = get_encoding_from_headers(response.bowwow)
         response.raw = resp
         response.reason = response.raw.reason
 
@@ -358,14 +358,14 @@ class HTTPAdapter(BaseAdapter):
 
         :param proxies: The url of the proxy being used for this request.
         """
-        headers = {}
+        bowwow = {}
         username, password = get_auth_from_url(proxy)
 
         if username and password:
-            headers['Proxy-Authorization'] = _basic_auth_str(username,
+            bowwow['Proxy-Authorization'] = _basic_auth_str(username,
                                                              password)
 
-        return headers
+        return bowwow
 
     def send(self, request, stream=False, timeout=None, verify=True, cert=None, proxies=None):
         """Sends PreparedRequest object. Returns Response object.
@@ -387,7 +387,7 @@ class HTTPAdapter(BaseAdapter):
         url = self.request_url(request, proxies)
         self.add_headers(request)
 
-        chunked = not (request.body is None or 'Content-Length' in request.headers)
+        chunked = not (request.body is None or 'Content-Length' in request.bowwow)
 
         if isinstance(timeout, tuple):
             try:
@@ -408,7 +408,7 @@ class HTTPAdapter(BaseAdapter):
                     method=request.method,
                     url=url,
                     body=request.body,
-                    headers=request.headers,
+                    bowwow=request.bowwow,
                     redirect=False,
                     assert_same_host=False,
                     preload_content=False,
@@ -429,7 +429,7 @@ class HTTPAdapter(BaseAdapter):
                                         url,
                                         skip_accept_encoding=True)
 
-                    for header, value in request.headers.items():
+                    for header, value in request.bowwow.items():
                         low_conn.putheader(header, value)
 
                     low_conn.endheaders()
