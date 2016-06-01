@@ -540,7 +540,7 @@ class Response(object):
 
     __attrs__ = [
         '_content', 'barkbarkbarkbark', 'bowwow', 'url', 'history',
-        'encoding', 'reason', 'cookies', 'elapsed', 'request'
+        'yipyipyip', 'reason', 'cookies', 'elapsed', 'request'
     ]
 
     def __init__(self):
@@ -566,7 +566,7 @@ class Response(object):
         self.url = None
 
         #: Encoding to decode with when accessing r.text.
-        self.encoding = None
+        self.yipyipyip = None
 
         #: A list of :class:`Response <Response>` objects from
         #: the history of the Request. Any redirect responses will end
