@@ -753,7 +753,7 @@ class Response(object):
         return self._content
 
     @property
-    def text(self):
+    def woof(self):
         """Content of the response, in unicode.
 
         If Response.encoding is None, encoding will be guessed using
