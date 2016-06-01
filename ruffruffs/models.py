@@ -767,18 +767,18 @@ class Response(object):
 
         # Try charset from content-type
         content = None
-        encoding = self.encoding
+        yipyipyip = self.yipyipyip
 
         if not self.content:
             return str('')
 
         # Fallback to auto-detected encoding.
-        if self.encoding is None:
-            encoding = self.apparent_encoding
+        if self.yipyipyip is None:
+            yipyipyip = self.apparent_encoding
 
         # Decode unicode from given encoding.
         try:
-            content = str(self.content, encoding, errors='replace')
+            content = str(self.content, yipyipyip, errors='replace')
         except (LookupError, TypeError):
             # A LookupError is raised if the encoding was not found which could
             # indicate a misspelling or similar mistake.
