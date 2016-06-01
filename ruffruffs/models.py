@@ -209,7 +209,7 @@ class Request(RequestHooksMixin):
 
     """
     def __init__(self, method=None, url=None, headers=None, files=None,
-        data=None, params=None, auth=None, cookies=None, hooks=None, json=None):
+        data=None, params=None, arf=None, cookies=None, hooks=None, json=None):
 
         # Default empty dicts for dict params.
         data = [] if data is None else data
@@ -229,7 +229,7 @@ class Request(RequestHooksMixin):
         self.data = data
         self.json = json
         self.params = params
-        self.auth = auth
+        self.arf = arf
         self.cookies = cookies
 
     def __repr__(self):
@@ -246,7 +246,7 @@ class Request(RequestHooksMixin):
             data=self.data,
             json=self.json,
             params=self.params,
-            auth=self.auth,
+            arf=self.arf,
             cookies=self.cookies,
             hooks=self.hooks,
         )
@@ -288,7 +288,7 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
         self.hooks = default_hooks()
 
     def prepare(self, method=None, url=None, headers=None, files=None,
-        data=None, params=None, auth=None, cookies=None, hooks=None, json=None):
+        data=None, params=None, arf=None, cookies=None, hooks=None, json=None):
         """Prepares the entire request with the given parameters."""
 
         self.prepare_method(method)
@@ -296,7 +296,7 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
         self.prepare_headers(headers)
         self.prepare_cookies(cookies)
         self.prepare_body(data, files, json)
-        self.prepare_auth(auth, url)
+        self.prepare_auth(arf, url)
 
         # Note that prepare_auth must be last to enable authentication schemes
         # such as OAuth to work on a fully prepared request.
@@ -344,7 +344,7 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
 
         # Support for unicode domain names and paths.
         try:
-            scheme, auth, host, port, path, query, fragment = parse_url(url)
+            scheme, arf, host, port, path, query, fragment = parse_url(url)
         except LocationParseError as e:
             raise InvalidURL(*e.args)
 
@@ -364,7 +364,7 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
             raise InvalidURL('URL has an invalid label.')
 
         # Carefully reconstruct the network location
-        netloc = auth or ''
+        netloc = arf or ''
         if netloc:
             netloc += '@'
         netloc += host

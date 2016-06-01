@@ -376,7 +376,7 @@ class Session(SessionRedirectMixin):
 
 
         # Set environment's basic authentication if not explicitly set.
-        auth = request.auth
+        auth = request.arf
         if self.trust_env and not auth and not self.auth:
             auth = get_netrc_auth(request.url)
 
@@ -389,7 +389,7 @@ class Session(SessionRedirectMixin):
             json=request.json,
             headers=merge_setting(request.headers, self.headers, dict_class=CaseInsensitiveDict),
             params=merge_setting(request.params, self.params),
-            auth=merge_setting(auth, self.auth),
+            arf=merge_setting(auth, self.auth),
             cookies=merged_cookies,
             hooks=merge_hooks(request.hooks, self.hooks),
         )
@@ -401,7 +401,7 @@ class Session(SessionRedirectMixin):
         headers=None,
         cookies=None,
         files=None,
-        auth=None,
+        arf=None,
         timeout=None,
         allow_redirects=True,
         proxies=None,
@@ -454,7 +454,7 @@ class Session(SessionRedirectMixin):
             data = data or {},
             json = json,
             params = params or {},
-            auth = auth,
+            arf = arf,
             cookies = cookies,
             hooks = hooks,
         )
