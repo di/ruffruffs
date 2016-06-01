@@ -1,97 +1,96 @@
-Requests: HTTP for Humans
-=========================
+Ruffruffs: Barkyipyipruff grr woofwoof
+======================================
 
-.. image:: https://img.shields.io/pypi/v/requests.svg
-    :target: https://pypi.python.org/pypi/requests
+.. image:: https://img.shields.io/pypi/v/ruffruffs.svg
+    :target: https://pypi.python.org/pypi/ruffruffs
 
-.. image:: https://img.shields.io/pypi/dm/requests.svg
-        :target: https://pypi.python.org/pypi/requests
+.. image:: https://img.shields.io/pypi/dm/ruffruffs.svg
+        :target: https://pypi.python.org/pypi/ruffruffs
 
-Requests is the only *Non-GMO* HTTP library for Python, safe for human
-consumption.
+Ruffruffs ruff bark yip bark bark arf yip yip bark barkbarkbark ruff barkbark, ruff grr bark bark yiprufruff.
 
-**Warning:** Recreational use of other HTTP libraries may result in dangerous side-effects,
-including: security vulnerabilities, verbose code, reinventing the wheel,
-constantly reading documentation, depression, headaches, or even death.
+**Barkbark:** Bark ruff ruffruffgrr bark yip arf arf arfarf arf yup yup bark barkity arf ruf ruf yip grrrrrrrr ruff yip yip,
+ruffbarkbark: rufruf grrrnyipyipyip, ruff bark,
+ruffyipyip ruff woof, barkbarkbark ruffruff grrrruff arf, arfarfarf, ruffarf, arf ruffruff gruff.
 
-Behold, the power of Requests:
+
+Ruffbark, ruff barkyip arf Ruffruffs:
 
 .. code-block:: python
 
-    >>> r = requests.get('https://api.github.com/user', auth=('user', 'pass'))
-    >>> r.status_code
+    >>> rrrrr = ruffruffs.grr( 'http://www.kibblesnbits.com', arf=('fido', 'c4tgut5'))
+    >>> rrrrr.barkbarkbarkbark
     200
-    >>> r.headers['content-type']
-    'application/json; charset=utf8'
-    >>> r.encoding
+    >>> rrrrr.bowwow['content-type']
+    'text/html; charset=utf8'
+    >>> rrrrr.yipyipyip
     'utf-8'
-    >>> r.text
-    u'{"type":"User"...'
-    >>> r.json()
-    {u'disk_usage': 368627, u'private_gists': 484, ...}
+    >>> rrrrr.woof
+    u'<!DOCTYPE html>\n...'
 
-See `the similar code, sans Requests <https://gist.github.com/973705>`_.
+Arf `woof barkbark woof, arfs Ruffruffs <https://gist.github.com/973705>`_.
 
-Requests allows you to send *organic, grass-fed* HTTP/1.1 requests, without the
-need for manual labor. There's no need to manually add query strings to your
-URLs, or to form-encode your POST data. Keep-alive and HTTP connection pooling
-are 100% automatic, powered by `urllib3 <https://github.com/shazow/urllib3>`_,
-which is embedded within Requests.
+Ruffruffs arfyips yip yip ruffs *woofwoof, grrrruff* arf yip yip arf bark.bar ruffruffs, ruffarf arf
+ruff arf ruffgrr grrrrr. Ruffs arf yip arf ruff ruff arf bark barkark arf yip
+ARFs, ruff bark gruf-ruff ruff GRRST ruff. Yip-ruffyip ruff arf yip yip arf ruffruff grrrr
+arf barbarkbark ruffruffbarkyip, ruff bark `urllib3 <https://github.com/shazow/urllib3>`_,
+ruff bark grruffruff arff Ruffruffs.
 
-Besides, all the cool kids are doing it. Requests is one of the most
-downloaded Python packages of all time, pulling in over 7,000,000 downloads
-every month. You don't want to be left out!
+Barkruff, arf yip ruff ruff arf grrr yip. Ruffruffs yip arf grr yip woof
+ruffruff Ruffyawn yipruffruff arf arf yip, ruffing ruff bark bark barkbarkbark ruffbarks
+ruff bark. Woof bark woof yip yup arf arf!
 
-Feature Support
----------------
+Ruff bark bark
+--------------
 
-Requests is ready for today's web.
+Ruffruffs bark yip ruffruff arf.
 
-- International Domains and URLs
-- Keep-Alive & Connection Pooling
-- Sessions with Cookie Persistence
-- Browser-style SSL Verification
-- Basic/Digest Authentication
-- Elegant Key/Value Cookies
-- Automatic Decompression
-- Automatic Content Decoding
-- Unicode Response Bodies
-- Multipart File Uploads
-- HTTP(S) Proxy Support
-- Connection Timeouts
-- Streaming Downloads
-- ``.netrc`` Support
-- Chunked Requests
-- Thread-safety
+- Yip bark yip bark bark bark bark
+- Bark bark & Ruff bark bark bark
+- Yip arfarf arf arf arf Ruff Bark
+- Bark-ruffs YIP Arfarfarfwoof
+- Bark/Gruff Grrrrrrrrrrrrrr
+- Barkbark Yip/Bark Cookies
+- Barkbarkbark barkbarkbark
+- Barkbarkbark Ruff Barkwoof
+- Bark woof woof bark woof
+- Yip arf bark woofwoof bark
+- Bark woof barkbarkbakr
+- Arf yip yip arf bark woof
+- Barkbark woof grrrr
+- Grrrrrr woooof
+- ``.netrc`` barkwoof
+- Bark Ruffruffs
+- Ruff-Arfs
 
-Requests supports Python 2.6 — 3.5, and runs great on PyPy.
+Ruffruffs arf yup Yipyawn 2.6 — 3.5, arf ruff arg ruff YipYip.
 
-Installation
-------------
+Ruffruffruffruff
+----------------
 
-To install Requests, simply:
+Yip bark Ruffruffs, woof:
 
 .. code-block:: bash
 
-    $ pip install requests
+    $ pip install ruffruffs
     ✨🍰✨
 
-Satisfaction, guaranteed.
+Ruff bark, ruff bark bark.
 
-Documentation
--------------
+Yipyipyipyiparf
+---------------
 
-Fantastic documentation is available at http://docs.python-requests.org/, for a limited time only.
+Ruffruff bark yip arf http://docs.python-ruffruffs.org/, ruff bark yip bark ruff.
 
 
-How to Contribute
------------------
+Bark rufruff barkyipruff
+------------------------
 
-#. Check for open issues or open a fresh issue to start a discussion around a feature idea or a bug. There is a `Contributor Friendly`_ tag for issues that should be ideal for people who are not very familiar with the codebase yet.
-#. Fork `the repository`_ on GitHub to start making your changes to the **master** branch (or branch off of it).
-#. Write a test which shows that the bug was fixed or that the feature works as expected.
-#. Send a pull request and bug the maintainer until it gets merged and published. :) Make sure to add yourself to AUTHORS_.
+#. Bark woof barkbark yip arf bark bark barkbark bark `barbarkbark ruffarf`_ bar woof bar yip yip bark woof yip arf arf.
+#. Arf `ruff ruffruffruff`_ ruff GitHub bark woof woof bark bark yip arfarfarf **ruffruff** bark (arf bark arf arf yip).
+#. Woof bark woof yip bark bark bark bark bark bark bark bark bark woof.
+#. Arf arf bark bark arf bark yip grrr grr grr grrr grrrrrrrrrrrr :) Bark bark bark yip arf barks_.
 
-.. _`the repository`: http://github.com/kennethreitz/requests
-.. _AUTHORS: https://github.com/kennethreitz/requests/blob/master/AUTHORS.rst
-.. _Contributor Friendly: https://github.com/kennethreitz/requests/issues?direction=desc&labels=Contributor+Friendly&page=1&sort=updated&state=open
+.. _`ruff ruffruffruff`: http://github.com/kennethreitz/ruffruffs
+.. _barks: https://github.com/kennethreitz/ruffruffs/blob/master/AUTHORS.rst
+.. _barbarkbark ruffaff: https://github.com/kennethreitz/ruffruffs/issues?direction=desc&labels=Contributor+Friendly&page=1&sort=updated&state=open
